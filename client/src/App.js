@@ -56,11 +56,24 @@ function App() {
   };
   
 //code for account balance
+useEffect(()=>{
+  const {web3} = state;
+  async function getBalance(){
+    if( account !== "Not connected"){
+      const balanceWei = await web3.eth.getBalance(account);
+      const balanceEth = web3.utils.fromWei(balanceWei,"ether");
+      setBalance(balanceEth);
+      //setBalance(balanceWei);
+      //console.log(balanceWei);
+    }
+  }
+  web3 && getBalance();
+},[state,account])
   return (
     <div className="App">
    <h1>Decentralize Autonoumous Organization</h1>
    <p className="font">Connected Account: {account}</p>
-   <p className="font">Available Funds: {balance} ETH</p>
+   <p className="font">Available Funds: {balance}  ETH</p>
    <form className="label0" id="myForm">
         <label htmlFor=""></label>
         <select className="innerBox" id="selectNumber" onChange={selectAccount}>
